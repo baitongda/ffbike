@@ -5,12 +5,11 @@
 </template>
 
 <script>
-//import reachBottom from '~/mixins/reachBottom'
 
 export default {
   async asyncData({$axios}){
-    let res = await $axios('https://forumtestapi.witranscn.com/user/index')
-    console.log('res', res['data'])
+    const res = await $axios({url:'/api/user/index'})
+    console.log(res)
   }
 }
 </script>

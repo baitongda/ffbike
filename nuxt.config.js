@@ -1,6 +1,4 @@
-module.exports = {
-  mode: 'universal',
-  buildDir: 'nuxt-dist',
+export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: '国际物流圈',
@@ -17,36 +15,15 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  env: {
-    baseUrl: 'https://forumtestapi.witranscn.com'
-  },
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    proxy: true,
-    credentials: true
-    //retry: false, // 默认值，自动拦截失败的请求并在可能的情况下重试它们3次
-    // See https://github.com/nuxt-community/axios-module#options
-  },
-
-  // proxy: {
-  //   '/api/': {
-  //     target: 'https://forumtestapi.witranscn.com/', // 目标服务器ip
-  //     pathRewrite: {
-  //       '^/api/': '/',
-  //       changeOrigin: true
-  //     }
-  //   }
-  // },
-
+  
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // '~/plugins/axios.js',
-    // '~/plugins/request.js',
-    // '~/plugins/api.js',
+    // axios  拦截器
+    '~/plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -60,12 +37,31 @@ module.exports = {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-     // Using package name
-     '@nuxtjs/axios',
-     '@nuxtjs/proxy'
+    // axios  拦截器
+    {
+      src:'~/plugins/axios',
+      'ssr':true     //  服务端渲染
+    }
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    proxy: true
+    //credentials: true
+    //retry: false, // 默认值，自动拦截失败的请求并在可能的情况下重试它们3次
+    // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  proxy: {
+    '/api': {
+      target: 'https://forumtestapi.witranscn.com', // 目标服务器ip
+      pathRewrite: {
+        //'^/api/': '',
+        changeOrigin: true
+      }
+    }
   }
 }

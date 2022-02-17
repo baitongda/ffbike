@@ -1,16 +1,23 @@
-export default function ({ app: { $axios, $cookies } }) {
-	$axios.defaults.baseURL = process.env.baseUrl
-	$axios.defaults.timeout = 30000
-	$axios.interceptors.request.use(config => {
-		config.headers['X-Token'] = $cookies.get('token') || ''
-		config.headers['X-Device-Id'] = $cookies.get('clientId') || ''
-		config.headers['X-Uid'] = $cookies.get('userId') || ''
-		return config
+export default function ({ $axios, redirect, route, store }) {
+	// 基本配置
+	$axios.defaults.timeout = 10000
+  
+	$axios.defaults.validateStatus = (status) => {
+	  return status >= 200 && status < 600
+	}
+	// 请求拦截
+	$axios.onRequest(config => {
+	  config.headers.token = ''
+	  //config.headers.apikey = 123456
+	  //config.headers.basehttp = 'www.baidu.com'
+	  return config
 	})
-	$axios.interceptors.response.use(response => {
-		if (/^[4|5]/.test(response.status)) {
-			return Promise.reject(response.statusText)
-		}
-		return response.data
+	// 响应拦截
+	$axios.onResponse(res => {
+	  return res.data
+	})
+	// 错误处理
+	$axios.onError(error => {
+	  return error
 	})
 }
