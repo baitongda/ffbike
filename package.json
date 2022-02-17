@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "cross-env BASE_URL=https://forumtestapi.witranscn.com BROWSER_BASE_URL=https://forumtestapi.witranscn.com nuxt",
     "build": "nuxt build",
     "start": "start",
     "generate": "nuxt generate"

@@ -1,5 +1,5 @@
 export default $axios => ({
-  getUser () {
+  getUserList () {
     return $axios.$get('/user/index')
   },
   // 其它接口

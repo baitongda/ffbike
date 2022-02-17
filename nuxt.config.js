@@ -23,7 +23,15 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // axios  拦截器
-    '~/plugins/axios'
+    {
+      src:'~/plugins/axios',
+      'ssr':true     //  服务端渲染
+    },
+    // axios  拦截器
+    {
+      src:'~/plugins/api',
+      'ssr':true     //  服务端渲染
+    }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -37,31 +45,39 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // axios  拦截器
-    {
-      src:'~/plugins/axios',
-      'ssr':true     //  服务端渲染
-    }
+    '@nuxtjs/axios'
   ],
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    proxy: true
-    //credentials: true
-    //retry: false, // 默认值，自动拦截失败的请求并在可能的情况下重试它们3次
+    proxy: true,
+    retry: false // 默认值，自动拦截失败的请求并在可能的情况下重试它们3次
     // See https://github.com/nuxt-community/axios-module#options
   },
-
   proxy: {
     '/api': {
-      target: 'https://forumtestapi.witranscn.com', // 目标服务器ip
+      target: 'https://forumtestapi.witranscn.com', // 目标接口域名
+      changeOrigin: true, // 表示是否跨域
       pathRewrite: {
-        //'^/api/': '',
-        changeOrigin: true
+        '^/api': '/', // 把 /api 替换成 /
       }
     }
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://forumtestapi.witranscn.com'
+  },
+  // 客户端相关
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL // 浏览器请求
+    }
+  },
+  // 服务端
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL // 服务器请求
+    }
+  },
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
   }
 }
