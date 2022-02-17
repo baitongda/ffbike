@@ -1,0 +1,20 @@
+{
+  "Avatar": {
+    "description": "Auto imported from components/avatar.vue"
+  },
+  "MountainsList": {
+    "description": "Auto imported from components/MountainsList.vue"
+  },
+  "Resource": {
+    "description": "Auto imported from components/resource.vue"
+  },
+  "TheFooter": {
+    "description": "Auto imported from components/TheFooter.vue"
+  },
+  "TheHeader": {
+    "description": "Auto imported from components/TheHeader.vue"
+  },
+  "UserCard": {
+    "description": "Auto imported from components/user-card.vue"
+  }
+}
