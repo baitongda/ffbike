@@ -15,9 +15,20 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  
+
+  //loading: '~components/loading.vue',
+  // googleAnalytics: {
+  //   id: 'UA-XXX-X'
+  //   id: process.env.GOOGLE_ANALYTICS_ID, // Use as fallback if no runtime config is provided
+  // },
+
+  validate({ params, query }) {
+    return /^d+$/.test(params.id) // must be number
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -31,7 +42,8 @@ export default {
     {
       src:'~/plugins/api',
       'ssr':true     //  服务端渲染
-    }
+    },
+    { src: '~/plugins/analytic.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,16 +53,26 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     //'@nuxtjs/tailwindcss',
+    // https://google-analytics.nuxtjs.org/setup
+    //'@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    // 请求代理配置，解决跨域
+    '@nuxtjs/proxy',
+    'bootstrap-vue/nuxt'
   ],
+  bootstrapVue: {
+    bootstrapCSS: true, // Or `css: false`
+    bootstrapVueCSS: true // Or `bvCSS: false`
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     proxy: true,
-    retry: false // 默认值，自动拦截失败的请求并在可能的情况下重试它们3次
+    retry: { retries: 3 }, // 默认值，自动拦截失败的请求并在可能的情况下重试它们3次
+    withCredentials: true
     // See https://github.com/nuxt-community/axios-module#options
   },
   proxy: {
@@ -77,6 +99,13 @@ export default {
       baseURL: process.env.BASE_URL // 服务器请求
     }
   },
+
+  // publicRuntimeConfig: {
+  //   googleAnalytics: {
+  //     id: process.env.GOOGLE_ANALYTICS_ID
+  //   }
+  // },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
